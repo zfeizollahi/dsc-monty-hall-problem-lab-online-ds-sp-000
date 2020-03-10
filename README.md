@@ -1,4 +1,3 @@
-
 # The Monty Hall Problem
 
 ## Introduction
@@ -19,8 +18,56 @@ This is not a traditional application of Bayes' theorem, so trying to formulate 
 
 
 ```python
-# Your code here
+import numpy as np
+np.random.seed(82)
 ```
+
+
+```python
+# Your code here
+doors = [1,2,3]
+switch = []
+no_switch = []
+for i in range(1000):
+    car_door = np.random.choice(doors, 1)[0]
+    selection = np.random.choice(doors, 1)[0]
+    if car_door == selection:
+        no_switch.append(1)
+        switch.append(0)
+    goat_door = [n for n in doors if n != car_door and n != selection]
+    shown_door = np.random.choice(goat_door,1)
+    #choose the non-shown door of goat door
+    switch_selection = [n for n in doors if n != shown_door and n != selection]
+    #check if you win (compare non-shown/switched door with car door assignemnt
+    if  car_door == switch_selection:
+        switch.append(1)
+        no_switch.append(0)
+```
+
+
+```python
+y_switch = [(sum(switch[:i]) / i) for i in range(1, len(switch)+1)]
+y_non_switch  = [(sum(no_switch[:i])/i) for i in range(1, len(no_switch)+1)]
+x = list(range(1,1001))
+```
+
+
+```python
+import matplotlib.pyplot as plt
+```
+
+
+```python
+plt.plot(x, y_switch, c='blue', label='Switching')
+plt.plot(x, y_non_switch, c='red', label='Non Switching')
+plt.title("Monty Hall: Probability of winning switch vs. not switching door")
+plt.legend()
+plt.show();
+```
+
+
+![png](index_files/index_6_0.png)
+
 
 ## Summary
 
